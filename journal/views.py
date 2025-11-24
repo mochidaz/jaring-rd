@@ -1,12 +1,20 @@
-from django.db.models import Q
 from django.shortcuts import render, get_object_or_404
-
+from django.db.models import Q
 from .models import Post, Category
 
 
 def home(request):
-    latest_posts = Post.objects.all().order_by('-created_at')[:3]
-    return render(request, 'journal/home.html', {'latest_posts': latest_posts})
+    featured_post = Post.objects.filter(is_featured=True).order_by('-created_at').first()
+
+    if featured_post:
+        latest_posts = Post.objects.exclude(pk=featured_post.pk).order_by('-created_at')[:3]
+    else:
+        latest_posts = Post.objects.all().order_by('-created_at')[:3]
+
+    return render(request, 'journal/home.html', {
+        'latest_posts': latest_posts,
+        'featured_post': featured_post
+    })
 
 
 def post_list(request):
@@ -22,7 +30,8 @@ def post_list(request):
     if search_query:
         posts = posts.filter(
             Q(title__icontains=search_query) |
-            Q(content__icontains=search_query)
+            Q(content__icontains=search_query) |
+            Q(author__icontains=search_query)
         )
 
     context = {
