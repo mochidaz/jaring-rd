@@ -17,9 +17,16 @@ Including another URLconf
 from django.conf.urls.static import static
 from django.contrib import admin
 from django.contrib.auth.views import LogoutView, LoginView
+from django.contrib.sitemaps.views import sitemap
 from django.urls import path, include
 
 from jaringrd import settings
+from journal.sitemaps import StaticViewSitemap, PostSitemap
+
+sitemaps = {
+    'static': StaticViewSitemap,
+    'posts': PostSitemap,
+}
 
 urlpatterns = [
     path('accounts/login/', LoginView.as_view(
@@ -39,6 +46,8 @@ urlpatterns = [
     path('ckeditor/', include('ckeditor_uploader.urls')),
     path('', include('journal.urls')),
     path('about/', include('about.urls')),
+
+    path('sitemap.xml', sitemap, {'sitemaps': sitemaps}, name='django.contrib.sitemaps.views.sitemap'),
 ]
 
 if settings.DEBUG:
