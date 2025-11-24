@@ -1,0 +1,105 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<style>
+    .legal-container {
+        max-width: 800px;
+        margin: 0 auto;
+        border: 1px solid #333;
+        padding: 40px;
+        background: rgba(0, 0, 0, 0.3);
+    }
+    
+    .legal-section {
+        margin-bottom: 30px;
+    }
+    
+    .legal-title {
+        font-family: 'Cinzel', serif;
+        color: var(--accent-red);
+        border-bottom: 1px dashed #444;
+        padding-bottom: 10px;
+        margin-bottom: 15px;
+        font-size: 1.2rem;
+    }
+    
+    .legal-text {
+        text-align: justify;
+        color: #aaa;
+        font-size: 0.95rem;
+        line-height: 1.6;
+    }
+
+    .contact-box {
+        border: 1px solid var(--accent-gold);
+        padding: 20px;
+        text-align: center;
+        margin-top: 40px;
+    }
+</style>
+
+<h2 class="page-title">Disclaimer & Archive Policy</h2>
+
+<div class="legal-container">
+
+    <div class="legal-section">
+        <div class="legal-title">1. Site Status (Unofficial Fan Site)</div>
+        <div class="legal-text">
+            <p>
+                <strong>Jaring RD</strong> is a documentation site created by fans for fans.
+                This site is <strong>NOT</strong> affiliated with, endorsed, sponsored, or officially approved by
+                <em>RD-Sounds</em>, <em>Team Shanghai Alice (ZUN)</em>, or any other related parties.
+            </p>
+        </div>
+    </div>
+
+    <div class="legal-section">
+        <div class="legal-title">2. Intellectual Property Rights</div>
+        <div class="legal-text">
+            <p>
+                All material sourced from original works, including but not limited to: song lyrics, character names,
+                circle logos, and album artwork, remains the full copyright of their respective original owners.
+            </p>
+            <ul style="margin-top: 10px; margin-left: 20px; list-style: square;">
+                <li>Touhou Project © Team Shanghai Alice</li>
+                <li>Music & Lyrics © RD-Sounds / Shoujo Byou / ABSOLUTE CASTAWAY / COSMOPOLITAN / Unico</li>
+            </ul>
+            <p style="margin-top: 10px;">
+                The use of such material on this site is intended for archival, educational, and cultural appreciation purposes
+                (Fair Use) without commercial intent.
+            </p>
+        </div>
+    </div>
+
+    <div class="legal-section">
+        <div class="legal-title">3. Non-Profit Policy</div>
+        <div class="legal-text">
+            <p>
+                This site operates entirely on a non-profit basis. We do not display ads, charge subscription fees,
+                or sell pirated merchandise. If you enjoy the works discussed here, we highly recommend that you
+                purchase original physical or digital albums to support the artists.
+            </p>
+        </div>
+    </div>
+
+    <div class="legal-section">
+        <div class="legal-title">4. Takedown Request</div>
+        <div class="legal-text">
+            <p>
+                We respect the copyright of content owners. If you are an official copyright holder and object to
+                the appearance of your work on this site, please contact us. We will immediately remove the content
+                in question within 24 hours upon verification.
+            </p>
+        </div>
+    </div>
+
+    <div class="contact-box">
+        <h4 style="font-family: 'Cinzel'; color: var(--accent-gold); margin-bottom: 10px;">Administrator Contact</h4>
+        <p style="color: #ccc;">For general inquiries or copyright issues:</p>
+        <a href="mailto:rahmanhakim2435@gmail.com" style="color: var(--accent-red); text-decoration: underline;">
+            rahmanhakim2435@gmail.com
+        </a>
+    </div>
+
+</div>
+{% endblock %}

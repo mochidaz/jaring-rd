@@ -22,7 +22,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 SECRET_KEY = 'django-insecure-m$ir+2n7!0o-g_q^c0t-d+gbe)g@s6af0!+0#3ugb4fy=6c4v3'
 
-DEBUG = False
+DEBUG = os.getenv('DEBUG', 'False') == 'True'
 
 ALLOWED_HOSTS = ["jaringrd.kakashispiritnews.my.id", "127.0.0.1", "localhost"]
 

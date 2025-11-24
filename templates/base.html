@@ -259,6 +259,16 @@
                 transform: translateY(0);
             }
         }
+
+        .disclaimer-box {
+            max-width: 800px;
+            margin: 20px auto 0;
+            padding-top: 20px;
+            border-top: 1px dashed #333;
+            font-size: 0.75rem;
+            line-height: 1.5;
+            color: #444;
+        }
     </style>
     {% block extra_css %}{% endblock %}
 </head>
@@ -331,7 +341,17 @@
     </main>
 
     <footer>
-        &copy; 2025 Mochida. Unofficial Archive of RD-Sounds. All rights reserved.
+        &copy; 2025 Mochida. Unofficial Archive of RD-Sounds and the circles surrounding him. All rights reserved.
+        <br>
+        <div class="disclaimer-box">
+            <p>
+                <strong><a href="{% url 'about:disclaimer' %}" style="color: var(--accent-red);">DISCLAIMER (CLICK TO READ FULL)</a></strong>:
+                This site is a non-profit fan project (Unofficial Fan Site).
+            </p>
+            <p style="margin-top: 5px;">
+                We are not affiliated with RD-Sounds or Team Shanghai Alice. All copyrights belong to their original creators.
+            </p>
+        </div>
     </footer>
 </div>
 

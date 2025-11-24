@@ -7,4 +7,5 @@ app_name = 'about'
 urlpatterns = [
     path('', views.about_view, name='index'),
     path('circles/', views.circle_list, name='circles'),
+    path('disclaimer/', views.disclaimer_view, name='disclaimer'),
 ]

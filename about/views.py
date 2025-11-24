@@ -10,3 +10,7 @@ def about_view(request):
 def circle_list(request):
     circles = Circle.objects.all()
     return render(request, 'about/circle_list.html', {'circles': circles})
+
+
+def disclaimer_view(request):
+    return render(request, 'about/disclaimer.html')
