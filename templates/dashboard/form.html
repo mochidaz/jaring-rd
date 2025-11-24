@@ -1,0 +1,70 @@
+{% extends 'dashboard/base_admin.html' %}
+
+{% block admin_content %}
+    <style>
+
+        .gothic-input {
+            width: 100%;
+            padding: 12px;
+            margin-bottom: 20px;
+            background: #0a0a0c;
+            border: 1px solid #444;
+            color: #ddd;
+            font-family: 'Crimson Text', serif;
+            font-size: 1rem;
+        }
+
+        .gothic-input:focus {
+            border-color: var(--accent-gold);
+            outline: none;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-family: 'Cinzel';
+            color: #aaa;
+            font-size: 0.9rem;
+        }
+
+        .helptext {
+            font-size: 0.8rem;
+            color: #555;
+            display: block;
+            margin-top: -15px;
+            margin-bottom: 20px;
+        }
+
+
+        .django-ckeditor-widget {
+            width: 100%;
+        }
+    </style>
+
+    <h2>{{ title }}</h2>
+
+    <div style="background: #111; padding: 30px; border: 1px solid #333; max-width: 800px;">
+        <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            {{ form.media }}
+
+            {% for field in form %}
+                <div>
+                    <label>{{ field.label }}</label>
+                    {{ field }}
+                    {% if field.help_text %}
+                        <span class="helptext">{{ field.help_text }}</span>
+                    {% endif %}
+                    {% if field.errors %}
+                        <div style="color: var(--accent-red); margin-bottom: 10px;">{{ field.errors }}</div>
+                    {% endif %}
+                </div>
+            {% endfor %}
+
+            <div style="margin-top: 30px; display: flex; gap: 10px;">
+                <button type="submit" class="btn btn-add" style="margin:0;">Simpan Perubahan</button>
+                <a href="javascript:history.back()" class="btn">Batal</a>
+            </div>
+        </form>
+    </div>
+{% endblock %}

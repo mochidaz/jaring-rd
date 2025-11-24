@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Grimoire Control Panel</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Crimson+Text:ital,wght@0,400;0,600;1,400&display=swap"
+          rel="stylesheet">
+    <style>
+        :root {
+            --bg-sidebar: #0f0f12;
+            --bg-main: #1a1a1e;
+            --text-main: #dcdcdc;
+            --accent-gold: #c5a059;
+            --accent-red: #8a1c1c;
+            --border: 1px solid #333;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Crimson Text', serif;
+            background: var(--bg-main);
+            color: var(--text-main);
+            display: flex;
+            min-height: 100vh;
+        }
+
+
+        .sidebar {
+            width: 250px;
+            background: var(--bg-sidebar);
+            border-right: 3px double #333;
+            padding: 20px;
+            flex-shrink: 0;
+            transition: all 0.3s ease;
+        }
+
+        .admin-title {
+            font-family: 'Cinzel';
+            color: var(--accent-gold);
+            font-size: 1.5rem;
+            margin-bottom: 40px;
+            text-align: center;
+            border-bottom: 1px solid var(--accent-red);
+            padding-bottom: 10px;
+        }
+
+        .menu-link {
+            display: block;
+            padding: 12px 10px;
+            color: #888;
+            text-decoration: none;
+            border-bottom: 1px dashed #222;
+            font-family: 'Cinzel';
+            transition: 0.3s;
+            font-size: 0.95rem;
+        }
+
+        .menu-link:hover {
+            color: var(--accent-red);
+            padding-left: 15px;
+        }
+
+
+        .menu-link.active {
+            color: var(--accent-gold);
+            border-left: 3px solid var(--accent-red);
+            padding-left: 15px;
+            background: rgba(138, 28, 28, 0.1);
+        }
+
+
+        .main-content {
+            flex: 1;
+            padding: 40px;
+            overflow-y: auto;
+            overflow-x: hidden;
+        }
+
+        h2 {
+            font-family: 'Cinzel';
+            color: #eee;
+            border-left: 4px solid var(--accent-gold);
+            padding-left: 15px;
+            margin-bottom: 30px;
+        }
+
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            background: #111;
+            border: var(--border);
+        }
+
+        th {
+            text-align: left;
+            padding: 15px;
+            background: #222;
+            color: var(--accent-gold);
+            font-family: 'Cinzel';
+            font-size: 0.9rem;
+        }
+
+        td {
+            padding: 15px;
+            border-bottom: 1px solid #222;
+        }
+
+        tr:hover {
+            background: #151518;
+        }
+
+
+        .btn {
+            padding: 8px 15px;
+            border: 1px solid #555;
+            background: #222;
+            color: #ccc;
+            cursor: pointer;
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-family: 'Cinzel';
+            display: inline-block;
+        }
+
+        .btn:hover {
+            border-color: var(--accent-gold);
+            color: var(--accent-gold);
+        }
+
+        .btn-add {
+            background: var(--accent-red);
+            color: #fff;
+            border: none;
+            margin-bottom: 20px;
+        }
+
+        .btn-add:hover {
+            background: #600;
+            color: #fff;
+        }
+
+        .btn-del {
+            color: #f55;
+            border-color: #522;
+        }
+
+        .btn-del:hover {
+            background: #300;
+        }
+
+        .alert {
+            padding: 15px;
+            background: #222;
+            border-left: 3px solid var(--accent-gold);
+            margin-bottom: 20px;
+        }
+
+
+        .mobile-admin-header {
+            display: none;
+            padding: 15px;
+            background: var(--bg-sidebar);
+            border-bottom: 3px double #333;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .mobile-toggle-btn {
+            background: transparent;
+            border: 1px solid var(--accent-gold);
+            color: var(--accent-gold);
+            padding: 5px 10px;
+            cursor: pointer;
+            font-family: 'Cinzel';
+        }
+
+
+        @media (max-width: 768px) {
+            body {
+                flex-direction: column;
+            }
+
+
+            .mobile-admin-header {
+                display: flex;
+            }
+
+
+            .sidebar {
+                width: 100%;
+                display: none;
+                border-right: none;
+                border-bottom: 3px double #333;
+            }
+
+
+            .sidebar.show {
+                display: block;
+                animation: slideDown 0.3s ease;
+            }
+
+            .main-content {
+                padding: 20px;
+            }
+
+
+            .main-content {
+                overflow-x: auto;
+            }
+
+            table {
+                min-width: 600px;
+            }
+        }
+
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div class="mobile-admin-header">
+    <span style="font-family: 'Cinzel'; color: var(--accent-gold);">THE ARCHIVIST</span>
+    <button class="mobile-toggle-btn" onclick="toggleAdminMenu()">&#9776; Menu</button>
+</div>
+
+<div class="sidebar" id="adminSidebar">
+    <div class="admin-title">The Archivist</div>
+    <nav>
+
+        <a href="{% url 'dashboard:home' %}"
+           class="menu-link {% if request.resolver_match.url_name == 'home' %}active{% endif %}">
+            Overview
+        </a>
+
+
+        <a href="{% url 'dashboard:post_list' %}"
+           class="menu-link {% if 'post' in request.resolver_match.url_name %}active{% endif %}">
+            Manuskrip (Jurnal)
+        </a>
+
+
+        <a href="{% url 'dashboard:category_list' %}"
+           class="menu-link {% if 'category' in request.resolver_match.url_name %}active{% endif %}">
+            Kategori
+        </a>
+
+
+        <a href="{% url 'dashboard:circle_list' %}"
+           class="menu-link {% if 'circle' in request.resolver_match.url_name %}active{% endif %}">
+            Database Circle
+        </a>
+
+        <div style="margin-top: 40px; border-top: 1px solid #333; padding-top: 20px;">
+            <a href="{% url 'journal:home' %}" class="menu-link" target="_blank">Lihat Website &rarr;</a>
+            <a href="{% url 'logout' %}" class="menu-link" style="color: #666;">Logout</a>
+        </div>
+    </nav>
+</div>
+
+<div class="main-content">
+    {% if messages %}
+        {% for message in messages %}
+            <div class="alert">{{ message }}</div>
+        {% endfor %}
+    {% endif %}
+    {% block admin_content %}{% endblock %}
+</div>
+
+<script>
+    function toggleAdminMenu() {
+        var sidebar = document.getElementById("adminSidebar");
+        sidebar.classList.toggle("show");
+    }
+</script>
+</body>
+</html>

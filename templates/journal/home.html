@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+
+    <div style="text-align: center; border: 1px solid var(--accent-gold); padding: 10px; margin-bottom: 40px; background: linear-gradient(45deg, #1a1a1e, #111);">
+
+
+        <div style="width: 100%; max-height: 450px; overflow: hidden; border: 1px solid #333; position: relative;">
+            <img src="{% static 'images/rd-banner.jpg' %}" alt="RD-Sounds Banner"
+                 style="width: 100%; height: 100%; object-fit: cover; display: block; opacity: 0.9;">
+
+
+            <div style="position: absolute; bottom: 0; left: 0; width: 100%; height: 50%; background: linear-gradient(to top, #111, transparent);"></div>
+        </div>
+
+        <div style="margin-top: -30px; padding-bottom: 20px; position: relative; z-index: 2;">
+            <p style="color: #ddd; font-family: 'Cinzel', serif; font-size: 1.3rem; margin-bottom: 25px; text-shadow: 0 2px 10px rgba(0,0,0,0.8);">
+                "Ketika mimpi dan kenyataan bertabrakan, ayo bermain di negeri ilusi."
+            </p>
+            <a href="{% url 'journal:list' %}" class="btn-gothic" style="background: rgba(0,0,0,0.8);">Masuk ke
+                Perpustakaan</a>
+        </div>
+    </div>
+
+    <h3 style="font-family: 'Cinzel'; border-left: 3px solid var(--accent-gold); padding-left: 15px; margin-bottom: 20px; color: #fff;">
+        Terbitan Terbaru</h3>
+    <ul style="list-style: none;">
+        {% for post in latest_posts %}
+            <li style="padding: 15px 0; border-bottom: 1px dashed #333;">
+                <span style="color: #666; font-size: 0.8rem; display:block;">{{ post.created_at|date:"d M Y" }}</span>
+                <a href="{% url 'journal:detail' post.slug %}"
+                   style="font-size: 1.2rem; font-family: 'Cinzel';">{{ post.title }}</a>
+
+                <div style="color: #888; font-size: 0.9rem;">
+                    {{ post.content|striptags|truncatewords:30|safe }}
+                </div>
+            </li>
+        {% empty %}
+            <li>Belum ada jurnal yang ditulis.</li>
+        {% endfor %}
+    </ul>
+{% endblock %}

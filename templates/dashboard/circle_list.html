@@ -1,0 +1,206 @@
+{% extends 'dashboard/base_admin.html' %}
+
+{% block admin_content %}
+    <style>
+        .page-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+
+        .header-actions {
+            display: flex;
+            gap: 10px;
+            align-items: stretch;
+            height: 40px;
+        }
+
+        .admin-search-form {
+            display: flex;
+            height: 100%;
+        }
+
+        .search-admin-input {
+            height: 100%;
+            background: #0a0a0c;
+            border: 1px solid #444;
+            border-right: none;
+            color: #ddd;
+            padding: 0 15px;
+            font-family: 'Crimson Text', serif;
+            font-size: 0.95rem;
+            width: 250px;
+            box-sizing: border-box;
+        }
+
+        .search-admin-input:focus {
+            border-color: var(--accent-gold);
+            outline: none;
+        }
+
+        .search-admin-btn {
+            height: 100%;
+            background: #151518;
+            border: 1px solid #444;
+            border-left: none;
+            color: var(--accent-gold);
+            padding: 0 15px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: 0.3s;
+        }
+
+        .search-admin-btn:hover {
+            background: var(--accent-gold);
+            color: #000;
+            border-color: var(--accent-gold);
+        }
+
+        .header-actions .btn-add {
+            height: 100%;
+            margin: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0 20px;
+            font-size: 0.9rem;
+            white-space: nowrap;
+            box-sizing: border-box;
+            background: var(--accent-red);
+            color: #fff;
+            border: 1px solid var(--accent-red);
+        }
+
+        .header-actions .btn-add:hover {
+            background: #600;
+            border-color: #600;
+        }
+
+        .table-responsive {
+            width: 100%;
+            overflow-x: auto;
+        }
+
+        th a {
+            color: var(--accent-gold);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        th a:hover {
+            color: #fff;
+        }
+
+        th a.active {
+            text-decoration: underline;
+        }
+
+        @media (max-width: 768px) {
+            .page-header {
+                flex-direction: column;
+                align-items: stretch;
+                height: auto;
+            }
+
+            .header-actions {
+                flex-direction: column;
+                height: auto;
+                width: 100%;
+            }
+
+            .admin-search-form {
+                width: 100%;
+                height: 40px;
+            }
+
+            .search-admin-input {
+                width: 100%;
+            }
+
+            .header-actions .btn-add {
+                width: 100%;
+                height: 40px;
+            }
+        }
+    </style>
+
+    <div class="page-header">
+        <h2 style="margin-bottom: 0; border: none; padding: 0;">Database Circle</h2>
+
+        <div class="header-actions">
+            <form method="get" action="" class="admin-search-form">
+                <input type="text" name="q" class="search-admin-input" placeholder="Cari circle..."
+                       value="{{ search_query }}">
+                <input type="hidden" name="sort" value="{{ current_sort }}">
+                <button type="submit" class="search-admin-btn" title="Cari">🔍</button>
+            </form>
+            <a href="{% url 'dashboard:circle_create' %}" class="btn btn-add">+ Tambah</a>
+        </div>
+    </div>
+
+    <div class="table-responsive">
+        <table>
+            <thead>
+            <tr>
+                <th>
+                    <a href="?sort={% if current_sort == 'name' %}-name{% else %}name{% endif %}&q={{ search_query }}"
+                       class="{% if 'name' in current_sort %}active{% endif %}">
+                        Nama Circle {% if current_sort == 'name' %}▲{% elif current_sort == '-name' %}▼{% endif %}
+                    </a>
+                </th>
+                <th>
+                    <a href="?sort={% if current_sort == 'genre' %}-genre{% else %}genre{% endif %}&q={{ search_query }}"
+                       class="{% if 'genre' in current_sort %}active{% endif %}">
+                        Genre {% if current_sort == 'genre' %}▲{% elif current_sort == '-genre' %}▼{% endif %}
+                    </a>
+                </th>
+                <th>
+                    <a href="?sort={% if current_sort == 'master' %}-master{% else %}master{% endif %}&q={{ search_query }}"
+                       class="{% if 'master' in current_sort %}active{% endif %}">
+                        Master {% if current_sort == 'master' %}▲{% elif current_sort == '-master' %}▼{% endif %}
+                    </a>
+                </th>
+                <th>
+                    <a href="?sort={% if current_sort == 'est_year' %}-est_year{% else %}est_year{% endif %}&q={{ search_query }}"
+                       class="{% if 'est_year' in current_sort %}active{% endif %}">
+                        Est {% if current_sort == 'est_year' %}▲{% elif current_sort == '-est_year' %}▼{% endif %}
+                    </a>
+                </th>
+                <th>Aksi</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for circle in circles %}
+                <tr>
+                    <td style="border-left: 3px solid {{ circle.theme_color }};">
+                        <strong>{{ circle.name }}</strong>
+                    </td>
+                    <td>{{ circle.genre }}</td>
+                    <td>{{ circle.master }}</td>
+                    <td>{{ circle.est_year }}</td>
+                    <td style="white-space: nowrap;">
+                        <a href="{% url 'dashboard:circle_edit' circle.pk %}" class="btn">Edit</a>
+                        <a href="{% url 'dashboard:circle_delete' circle.pk %}" class="btn btn-del"
+                           onclick="return confirm('Hapus data circle ini?')">Hapus</a>
+                    </td>
+                </tr>
+            {% empty %}
+                <tr>
+                    <td colspan="5" style="text-align: center;">
+                        {% if search_query %}Tidak ada hasil untuk "{{ search_query }}"{% else %}Belum ada
+                            circle.{% endif %}
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% endblock %}

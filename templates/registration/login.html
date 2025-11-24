@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <div style="max-width: 400px; margin: 80px auto; padding: 40px; border: 3px double #333; background: #1a1a1e; text-align: center; box-shadow: 0 0 20px rgba(0,0,0,0.5);">
+        <h2 style="font-family: 'Cinzel'; color: var(--accent-gold); margin-bottom: 30px; letter-spacing: 2px;">
+            Gatekeeper Authentication</h2>
+
+        {% if form.errors %}
+            <div style="background: rgba(138, 28, 28, 0.2); border: 1px solid var(--accent-red); padding: 10px; margin-bottom: 20px; color: #ffadad; font-size: 0.9rem;">
+                Identitas tidak dikenali. Silakan coba lagi.
+            </div>
+        {% endif %}
+
+        <form method="post" action="{% url 'login' %}">
+            {% csrf_token %}
+
+            <div style="text-align: left; margin-bottom: 20px;">
+                <label style="font-family: 'Cinzel'; font-size: 0.8rem; color: #888; display: block; margin-bottom: 5px;">Username</label>
+                {{ form.username }}
+            </div>
+
+            <div style="text-align: left; margin-bottom: 30px;">
+                <label style="font-family: 'Cinzel'; font-size: 0.8rem; color: #888; display: block; margin-bottom: 5px;">Password</label>
+                {{ form.password }}
+            </div>
+
+            <button type="submit" class="btn-gothic" style="width: 100%; padding: 12px; font-size: 1rem;">Masuk ke
+                Arsip
+            </button>
+
+
+            <input type="hidden" name="next" value="{{ next }}">
+        </form>
+    </div>
+{% endblock %}

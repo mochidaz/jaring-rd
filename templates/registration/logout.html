@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <div style="max-width: 500px; margin: 80px auto; padding: 40px; border: 3px double #333; background: #1a1a1e; text-align: center;">
+        <h2 style="font-family: 'Cinzel'; color: var(--accent-gold); margin-bottom: 20px; font-size: 2rem;">Hubungan
+            Terputus</h2>
+
+        <p style="color: #aaa; margin-bottom: 30px; font-style: italic;">
+            "Jejakmu telah disembunyikan kembali ke dalam bayang-bayang. <br>
+            Gerbang arsip kini tertutup."
+        </p>
+
+        <div style="width: 50px; height: 2px; background: var(--accent-red); margin: 0 auto 30px auto;"></div>
+
+        <div style="display: flex; gap: 15px; justify-content: center;">
+            <a href="{% url 'login' %}" class="btn-gothic">Masuk Kembali</a>
+            <a href="{% url 'journal:home' %}"
+               style="padding: 8px 16px; border: 1px solid #444; color: #888; font-family: 'Cinzel'; font-size: 0.9rem;">Kembali
+                ke Beranda</a>
+        </div>
+    </div>
+{% endblock %}

@@ -1,0 +1,63 @@
+{% extends 'base.html' %}
+
+{% block extra_css %}
+    <style>
+        .circle-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+        }
+
+        .circle-card {
+            background: #1a1a1e;
+            border: 1px solid #333;
+            padding: 20px;
+            transition: transform 0.3s;
+        }
+
+        .circle-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--accent-gold);
+        }
+
+        .stats-table {
+            width: 100%;
+            font-size: 0.9rem;
+            margin: 15px 0;
+        }
+
+        .stats-table td {
+            padding: 4px 0;
+            border-bottom: 1px dashed #333;
+        }
+    </style>
+{% endblock %}
+
+{% block content %}
+    <h2 class="page-title">Database Circle</h2>
+    <div class="circle-grid">
+        {% for circle in circles %}
+            <div class="circle-card" style="border-top: 3px solid {{ circle.theme_color }};">
+                <div style="border-bottom: 1px solid #333; padding-bottom: 10px;">
+                    <div style="font-family: 'Cinzel'; font-size: 1.5rem; color: #fff;">{{ circle.name }}</div>
+                    <div style="font-size: 0.8rem; text-transform: uppercase; color: #888;">{{ circle.genre }}</div>
+                </div>
+
+                <table class="stats-table">
+                    <tr>
+                        <td style="color: var(--accent-gold);">Master</td>
+                        <td>{{ circle.master }}</td>
+                    </tr>
+                    <tr>
+                        <td style="color: var(--accent-gold);">Est.</td>
+                        <td>{{ circle.est_year }}</td>
+                    </tr>
+                </table>
+
+                <div style="background: #111; padding: 10px; border: 1px solid #333; font-size: 0.85rem; color: #aaa;">
+                    {{ circle.description }}
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+{% endblock %}
