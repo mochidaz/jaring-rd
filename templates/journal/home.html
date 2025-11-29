@@ -61,7 +61,7 @@
                    style="font-size: 1.2rem; font-family: 'Cinzel';">{{ post.title }}</a>
 
                 <div style="color: #888; font-size: 0.9rem;">
-                    {{ post.content|striptags|truncatewords:30 }}
+                    {{ post.content|striptags|truncatewords:30|safe }}
                 </div>
             </li>
         {% empty %}
