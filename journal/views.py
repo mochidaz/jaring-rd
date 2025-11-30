@@ -4,10 +4,10 @@ from .models import Post, Category
 
 
 def home(request):
-    featured_post = Post.objects.filter(is_featured=True).order_by('-created_at').first()
+    featured_post = Post.objects.filter(is_featured=True, is_draft=False).order_by('-created_at').first()
 
     if featured_post:
-        latest_posts = Post.objects.exclude(pk=featured_post.pk, is_draft=True).order_by('-created_at')[:3]
+        latest_posts = Post.objects.exclude(pk=featured_post.pk).filter(is_draft=False).order_by('-created_at')[:3]
     else:
         latest_posts = Post.objects.filter(is_draft=False).order_by('-created_at')[:3]
 
@@ -21,18 +21,17 @@ def post_list(request):
     category_slug = request.GET.get('cat')
     search_query = request.GET.get('q')
 
-    posts = Post.objects.all().order_by('-created_at')
+    posts = Post.objects.filter(is_draft=False).order_by('-created_at')
     categories = Category.objects.all()
 
     if category_slug:
-        posts = posts.filter(category__slug=category_slug, is_draft=False)
+        posts = posts.filter(category__slug=category_slug)
 
     if search_query:
         posts = posts.filter(
             Q(title__icontains=search_query) |
             Q(content__icontains=search_query) |
-            Q(author__icontains=search_query),
-            is_draft=False
+            Q(author__icontains=search_query)
         )
 
     context = {
@@ -45,5 +44,5 @@ def post_list(request):
 
 
 def post_detail(request, slug):
-    post = get_object_or_404(Post, slug=slug)
+    post = get_object_or_404(Post, slug=slug, is_draft=False)
     return render(request, 'journal/post_detail.html', {'post': post})
