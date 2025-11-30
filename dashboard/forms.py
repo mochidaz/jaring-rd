@@ -18,12 +18,13 @@ class CategoryForm(forms.ModelForm):
 class PostForm(forms.ModelForm):
     class Meta:
         model = Post
-        fields = ['title', 'category', 'cover_image', 'content', 'is_featured']
+        fields = ['title', 'category', 'cover_image', 'content', 'is_featured', 'is_draft']
         widgets = {
             'title': forms.TextInput(attrs={'class': 'gothic-input', 'placeholder': 'Judul Manuskrip...'}),
             'category': forms.Select(attrs={'class': 'gothic-input'}),
             'cover_image': forms.ClearableFileInput(attrs={'class': 'gothic-input'}),
             'is_featured': forms.CheckboxInput(attrs={'class': 'gothic-checkbox'}),
+            'is_draft': forms.CheckboxInput(attrs={'class': 'gothic-checkbox'}),
             'content': CKEditorUploadingWidget(),
         }
 

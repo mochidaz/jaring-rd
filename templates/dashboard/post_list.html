@@ -11,14 +11,12 @@
             gap: 15px;
         }
 
-
         .header-actions {
             display: flex;
             gap: 10px;
             align-items: stretch;
             height: 40px;
         }
-
 
         .admin-search-form {
             display: flex;
@@ -63,7 +61,6 @@
             border-color: var(--accent-gold);
         }
 
-
         .header-actions .btn-add {
             height: 100%;
             margin: 0;
@@ -84,7 +81,6 @@
             border-color: #600;
         }
 
-
         .table-responsive {
             width: 100%;
             overflow-x: auto;
@@ -104,6 +100,36 @@
 
         th a.active {
             text-decoration: underline;
+        }
+
+        .status-badge {
+            padding: 3px 8px;
+            border-radius: 4px;
+            font-size: 0.75rem;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            display: inline-block;
+        }
+
+        /* Style untuk Draft */
+        .status-draft {
+            background-color: #2c2c2c;
+            color: #888;
+            border: 1px solid #444;
+        }
+
+        .status-published {
+            background-color: rgba(var(--accent-gold-rgb, 212, 175, 55), 0.15);
+            color: var(--accent-gold);
+            border: 1px solid var(--accent-gold);
+        }
+
+        .status-featured {
+            background-color: var(--accent-gold);
+            color: #000;
+            border: 1px solid var(--accent-gold);
+            box-shadow: 0 0 5px rgba(212, 175, 55, 0.4);
         }
 
         @media (max-width: 768px) {
@@ -139,14 +165,12 @@
         <h2 style="margin-bottom: 0; border: none; padding: 0;">Daftar Manuskrip</h2>
 
         <div class="header-actions">
-
             <form method="get" action="" class="admin-search-form">
                 <input type="text" name="q" class="search-admin-input" placeholder="Cari judul, penulis..."
                        value="{{ search_query }}">
                 <input type="hidden" name="sort" value="{{ current_sort }}">
                 <button type="submit" class="search-admin-btn" title="Cari">🔍</button>
             </form>
-
 
             <a href="{% url 'dashboard:post_create' %}" class="btn btn-add">+ Tulis Baru</a>
         </div>
@@ -167,6 +191,12 @@
                        class="{% if 'category' in current_sort %}active{% endif %}">
                         Kategori {% if current_sort == 'category__name' %}▲{% elif current_sort == '-category__name' %}
                         ▼{% endif %}
+                    </a>
+                </th>
+                <th>
+                    <a href="?sort={% if current_sort == 'is_draft' %}-is_draft{% else %}is_draft{% endif %}&q={{ search_query }}"
+                       class="{% if 'is_draft' in current_sort %}active{% endif %}">
+                        Status {% if current_sort == 'is_draft' %}▲{% elif current_sort == '-is_draft' %}▼{% endif %}
                     </a>
                 </th>
                 <th>
@@ -193,6 +223,17 @@
                         <small style="color: #666;">{{ post.slug }}</small>
                     </td>
                     <td>{{ post.category.name }}</td>
+
+                    <td>
+                        {% if post.is_draft %}
+                            <span class="status-badge status-draft">Draft</span>
+                        {% elif post.is_featured %}
+                            <span class="status-badge status-featured">★ Featured</span>
+                        {% else %}
+                            <span class="status-badge status-published">Terbit</span>
+                        {% endif %}
+                    </td>
+
                     <td>{{ post.author }}</td>
                     <td>{{ post.created_at|date:"d/m/Y" }}</td>
                     <td style="white-space: nowrap;">
@@ -203,7 +244,7 @@
                 </tr>
             {% empty %}
                 <tr>
-                    <td colspan="5" style="text-align: center;">
+                    <td colspan="6" style="text-align: center;">
                         {% if search_query %}Tidak ada hasil untuk "{{ search_query }}"{% else %}Arsip
                             kosong.{% endif %}
                     </td>

@@ -28,8 +28,15 @@
             <tr>
                 <td>{{ post.title }}</td>
                 <td>{{ post.created_at|date:"d M Y" }}</td>
-                <td>{% if post.is_featured %}<span style="color: var(--accent-gold);">Featured</span>{% else %}
-                    -{% endif %}</td>
+                <td>
+                    {% if post.is_draft %}
+                        <span style="color: #666; font-style: italic;">Draft</span>
+                    {% elif post.is_featured %}
+                        <span style="color: var(--accent-gold);">Featured</span>
+                    {% else %}
+                        <span style="color: #aaa;">Terbit</span>
+                    {% endif %}
+                </td>
             </tr>
         {% endfor %}
         </tbody>

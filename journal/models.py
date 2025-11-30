@@ -26,6 +26,7 @@ class Post(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     cover_image = models.ImageField(upload_to='post_covers/', blank=True, null=True)
     is_featured = models.BooleanField(default=False)
+    is_draft = models.BooleanField(default=False)
 
     def save(self, *args, **kwargs):
         if not self.slug:

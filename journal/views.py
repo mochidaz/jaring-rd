@@ -7,9 +7,9 @@ def home(request):
     featured_post = Post.objects.filter(is_featured=True).order_by('-created_at').first()
 
     if featured_post:
-        latest_posts = Post.objects.exclude(pk=featured_post.pk).order_by('-created_at')[:3]
+        latest_posts = Post.objects.exclude(pk=featured_post.pk, is_draft=True).order_by('-created_at')[:3]
     else:
-        latest_posts = Post.objects.all().order_by('-created_at')[:3]
+        latest_posts = Post.objects.filter(is_draft=False).order_by('-created_at')[:3]
 
     return render(request, 'journal/home.html', {
         'latest_posts': latest_posts,
@@ -25,13 +25,14 @@ def post_list(request):
     categories = Category.objects.all()
 
     if category_slug:
-        posts = posts.filter(category__slug=category_slug)
+        posts = posts.filter(category__slug=category_slug, is_draft=False)
 
     if search_query:
         posts = posts.filter(
             Q(title__icontains=search_query) |
             Q(content__icontains=search_query) |
-            Q(author__icontains=search_query)
+            Q(author__icontains=search_query),
+            is_draft=False
         )
 
     context = {
